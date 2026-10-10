@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class GitService(ABC):
     @abstractmethod
-    def get_staged_diff(self) -> str:
+    def get_changes(self) -> str:
         pass
 
     @abstractmethod

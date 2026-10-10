@@ -23,7 +23,7 @@ class GenerateCommitMessageUseCase:
 
         ai_service = self.ai_service_provider.get(ai_profile)
 
-        staged_diff = self.git_service.get_staged_diff()
+        staged_diff = self.git_service.get_changes()
         if not staged_diff.strip():
             raise ValueError("No staged changes found.")
 

@@ -5,7 +5,7 @@ from domain.services.git_service import GitService
 
 
 class GitServiceImpl(GitService):
-    def get_staged_diff(self) -> str:
+    def get_changes(self) -> str:
         return self._run_command(["git", "diff", "--staged"]).stdout.strip()
 
     def execute_commit(self, message: str) -> None:
