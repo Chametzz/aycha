@@ -35,5 +35,8 @@ class GenerateCommitMessageUseCase:
         prompt = f"Diff:\n{staged_diff}"
         if context:
             prompt += f"\n\nContext/Hint: {context}"
+        message = ai_service.generate_response(prompt, system_prompt)
 
-        return ai_service.generate_response(prompt, system_prompt)
+        self.git_service.execute_commit(message)
+
+        return message
