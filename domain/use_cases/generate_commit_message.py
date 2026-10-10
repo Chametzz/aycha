@@ -28,8 +28,10 @@ class GenerateCommitMessageUseCase:
             raise ValueError("No staged changes found.")
 
         system_prompt = (
-            "You are an expert developer assistant."
-            "standard-compilant conventional commit message based on the provided diff."
+            "You are an expert developer assistant. "
+            "Generate a standard-compliant conventional commit message based on the provided diff. "
+            "CRITICAL: Output ONLY the plain text commit message. "
+            "Do NOT use markdown code blocks (no ```, no ```text, no backticks at all)."
         )
 
         prompt = f"Diff:\n{staged_diff}"
