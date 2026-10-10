@@ -19,7 +19,7 @@ class AIProfileRouter:
         self.use_controller = use_controller
 
     def __call__(self) -> typer.Typer:
-        self.router = typer.Typer(name="aiprofile", help="Manage AI Profiles.")
+        self.router = typer.Typer(name="ai-profile", help="Manage AI Profiles.")
         self.router.command("create")(self.create_controller)
         self.router.command("list")(self.list_controller)
         self.router.command("update")(self.update_controller)

@@ -3,6 +3,7 @@ from enum import Enum
 
 class AIProvider(Enum):
     GROQ = ("groq", "Groq", True)
+    GEMINI = ("gemini", "Google Gemini", True)
 
     def __init__(self, value: str, display_name: str, requires_api_key: bool):
         self._value_ = value
