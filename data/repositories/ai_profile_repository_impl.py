@@ -20,7 +20,7 @@ class AIProfileRepositoryImpl(AIProfileRepository):
 
     def _ensure_file_exists(self) -> None:
         if not self.file_path.exists():
-            self._save_json(DEFAULT_DATA)
+            self._save_file(DEFAULT_DATA)
 
     def _load_file(self) -> dict[str, Any]:
         try:
