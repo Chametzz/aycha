@@ -24,3 +24,9 @@ Ahora necesito hacer que el system_prompt pueda cambiar para los commits, cómo 
 mmmmmm
 debido a que puede haber otros comandos después entonces entonces no puedo casar a los perfiles de IA con otros
 git_commit_system_prompt.txt
+
+que comandos ocuparemos
+
+
+seleccionar el registro de prompt del sistema
+editarlo y ya
