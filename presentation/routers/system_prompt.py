@@ -10,3 +10,4 @@ class SystemPromptRouter:
     def __call__(self) -> typer.Typer:
         self.router = typer.Typer(name="system-prompt", help="Manage system prompts")
         self.router.command("update")(self.update_controller)
+        return self.router

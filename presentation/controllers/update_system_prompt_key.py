@@ -2,14 +2,16 @@ from typing import Annotated
 
 import typer
 
-from domain.enums.system_prompt_registry import SystemPromptRegistry
+from domain.enums.system_prompt_key import SystemPromptKey
 from domain.services.system_prompt_service import SystemPromptService
 from pkg.controller import Controller
-from presentation.prompts.select_system_prompt import prompt_select_system_prompt
+from presentation.prompts.select_system_prompt_key import (
+    prompt_select_system_prompt_key,
+)
 from presentation.prompts.text_editor import prompt_text_editor
 
 
-class UpdateSystemPromptController(Controller):
+class UpdateSystemPromptKeyController(Controller):
     def __init__(self, service: SystemPromptService):
         self.service = service
 
@@ -18,21 +20,19 @@ class UpdateSystemPromptController(Controller):
         key: Annotated[
             str | None,
             typer.Option(
-                "--id",
-                "-i",
                 "--key",
                 "-k",
-                help="Identifier of the system prompt to update",
+                help="Key of the system prompt to update",
             ),
         ] = None,
     ):
         try:
             if key:
-                registry = SystemPromptRegistry(key)
+                registry = SystemPromptKey(key)
             else:
-                registry = prompt_select_system_prompt(SystemPromptRegistry)
+                registry = prompt_select_system_prompt_key(SystemPromptKey)
         except ValueError:
-            typer.secho(f"Error: '{key}' is not valid system prompt identifier.")
+            typer.secho(f"Error: '{key}' is not valid system prompt key.")
 
         new_content = prompt_text_editor(self.service.get(registry))
 

@@ -1,6 +1,8 @@
+from domain.enums.system_prompt_key import SystemPromptKey
 from domain.repositories.ai_profile_repository import AIProfileRepository
 from domain.services.ai_service_provider import AIServiceProvider
 from domain.services.git_service import GitService
+from domain.services.system_prompt_service import SystemPromptService
 
 
 class GenerateCommitMessageUseCase:
@@ -9,10 +11,12 @@ class GenerateCommitMessageUseCase:
         git_service: GitService,
         ai_profile_repository: AIProfileRepository,
         ai_service_provider: AIServiceProvider,
+        system_prompt_service: SystemPromptService,
     ):
         self.git_service = git_service
         self.ai_profile_repository = ai_profile_repository
         self.ai_service_provider = ai_service_provider
+        self.system_prompt_service = system_prompt_service
 
     def __call__(self, context: str | None) -> str:
         ai_profile = self.ai_profile_repository.get_active()
@@ -27,11 +31,8 @@ class GenerateCommitMessageUseCase:
         if not staged_diff.strip():
             raise ValueError("No staged changes found.")
 
-        system_prompt = (
-            "You are an expert developer assistant. "
-            "Generate a standard-compliant conventional commit message based on the provided diff. "
-            "CRITICAL: Output ONLY the plain text commit message. "
-            "Do NOT use markdown code blocks (no ```, no ```text, no backticks at all)."
+        system_prompt = self.system_prompt_service.get_or_default(
+            SystemPromptKey.GIT_COMMIT
         )
 
         prompt = f"Diff:\n{staged_diff}"

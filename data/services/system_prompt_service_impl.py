@@ -5,7 +5,7 @@ from typing import Any
 from typer import get_app_dir
 
 from domain.constants import APP_NAME
-from domain.enums.system_prompt_registry import SystemPromptRegistry
+from domain.enums.system_prompt_key import SystemPromptKey
 from domain.services.system_prompt_service import SystemPromptService
 
 DEFAULT_DATA: dict[str, Any] = {}
@@ -32,19 +32,27 @@ class SystemPromptServiceImpl(SystemPromptService):
         with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
-    def save(self, key: SystemPromptRegistry, content: str) -> None:
+    def save(self, key: SystemPromptKey, content: str) -> None:
         data = self._load_file()
         data[key.value] = content
         self._save_file(data)
 
-    def get(self, key: SystemPromptRegistry) -> str:
+    def get(self, key: SystemPromptKey) -> str | None:
         data = self._load_file()
+        content = data.get(key.value)
 
-        if system_prompt := data.get(key.value):
+        if content is not None:
+            cleaned_content = content.strip()
+            if cleaned_content:
+                return cleaned_content
+
+        return ""
+
+    def get_or_default(self, key: SystemPromptKey):
+        if system_prompt := self.get(key):
             return system_prompt
-
         match key:
-            case SystemPromptRegistry.GIT_COMMIT:
+            case SystemPromptKey.GIT_COMMIT:
                 return (
                     "You are an expert developer assistant. "
                     "Generate a standard-compliant conventional commit message based on the provided diff. "

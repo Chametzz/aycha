@@ -1,6 +1,7 @@
 from data.repositories.ai_profile_repository_impl import AIProfileRepositoryImpl
 from data.services.ai_service_provider_impl import AIServiceProviderImpl
 from data.services.git_service_impl import GitServiceImpl
+from data.services.system_prompt_service_impl import SystemPromptServiceImpl
 from domain.use_cases.create_ai_profile import CreateAIProfileUseCase
 from domain.use_cases.delete_ai_profile import DeleteAIProfileUseCase
 from domain.use_cases.generate_commit_message import GenerateCommitMessageUseCase
@@ -11,10 +12,14 @@ from presentation.controllers.delete_ai_profile import DeleteAIProfileController
 from presentation.controllers.git_commit import GitCommitController
 from presentation.controllers.list_ai_profiles import ListAIProfilesController
 from presentation.controllers.update_ai_profile import UpdateAIProfileController
+from presentation.controllers.update_system_prompt_key import (
+    UpdateSystemPromptKeyController,
+)
 from presentation.controllers.use_ai_profile import UseAIProfileController
 from presentation.routers.ai_profile import AIProfileRouter
 from presentation.routers.app import AppRouter
 from presentation.routers.git_commit import GitCommitRouter
+from presentation.routers.system_prompt import SystemPromptRouter
 
 if __name__ == "__main__":
     # repositories
@@ -23,12 +28,13 @@ if __name__ == "__main__":
     # services
     ai_service_provider = AIServiceProviderImpl()
     git_service = GitServiceImpl()
+    system_prompt_service = SystemPromptServiceImpl()
 
     # use cases
     create_ai_profile_use_case = CreateAIProfileUseCase(ai_profile_repositroy)
     delete_ai_profile_use_case = DeleteAIProfileUseCase(ai_profile_repositroy)
     generate_commit_message_use_case = GenerateCommitMessageUseCase(
-        git_service, ai_profile_repositroy, ai_service_provider
+        git_service, ai_profile_repositroy, ai_service_provider, system_prompt_service
     )
     set_active_ai_profile_use_case = SetActiveAIProfileUseCase(ai_profile_repositroy)
     update_ai_profile_use_case = UpdateAIProfileUseCase(ai_profile_repositroy)
@@ -48,6 +54,9 @@ if __name__ == "__main__":
     use_ai_profile_controller = UseAIProfileController(
         ai_profile_repositroy, set_active_ai_profile_use_case
     )
+    update_system_prompt_key_controller = UpdateSystemPromptKeyController(
+        system_prompt_service
+    )
 
     # routers
     ai_profile_router = AIProfileRouter(
@@ -58,6 +67,10 @@ if __name__ == "__main__":
         use_ai_profile_controller,
     )
     git_commit_router = GitCommitRouter(git_commit_controller)
-    app_router = AppRouter(ai_profile_router(), git_commit_router())
+    system_prompt_router = SystemPromptRouter(update_system_prompt_key_controller)
+
+    app_router = AppRouter(
+        ai_profile_router(), git_commit_router(), system_prompt_router()
+    )
     app = app_router()
     app()

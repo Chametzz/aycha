@@ -1,9 +1,9 @@
 from enum import Enum
 
 
-class SystemPromptRegistry(Enum):
+class SystemPromptKey(Enum):
     GIT_COMMIT = (
-        "git_commit",
+        "git-commit",
         "Git commit",
     )
 
