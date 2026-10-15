@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chai"
+version = "1.0.0"
+description = "Chai is an AI agent manager to do commits."
+readme = "README.md"
+requires-python = ">=3.14"
+authors = [{ name = "Chametzz", email = "chamrlsmtz@gmail.com" }]
+license = { text = "MIT" }
+dependencies = [
+    "click>=8.5.0",
+    "google-genai>=2.31.0",
+    "groq>=1.7.0",
+    "questionary>=2.1.1",
+    "typer>=0.27.3",
+    "uv>=0.13.1",
+]
+
+[project.scripts]
+chai = "main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["domain", "data", "presentation", "pkg"]

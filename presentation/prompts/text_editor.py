@@ -14,11 +14,6 @@ def prompt_text_editor(initial_text: str = "") -> str:
         click.edit(filename=temp_path)
 
         text = Path(temp_path).read_text(encoding="utf-8")
-        cleaned_text = text.strip()
-
-        if not cleaned_text:
-            return None
-
-        return cleaned_text
+        return text.strip()
     finally:
         Path(temp_path).unlink(missing_ok=True)

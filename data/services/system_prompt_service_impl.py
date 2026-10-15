@@ -37,16 +37,9 @@ class SystemPromptServiceImpl(SystemPromptService):
         data[key.value] = content
         self._save_file(data)
 
-    def get(self, key: SystemPromptKey) -> str | None:
-        data = self._load_file()
-        content = data.get(key.value)
-
-        if content is not None:
-            cleaned_content = content.strip()
-            if cleaned_content:
-                return cleaned_content
-
-        return ""
+    def get(self, key: SystemPromptKey) -> str:
+        content = self._load_file().get(key.value)
+        return content.strip() if content and content.strip() else ""
 
     def get_or_default(self, key: SystemPromptKey):
         if system_prompt := self.get(key):

@@ -9,7 +9,7 @@ class SystemPromptService(ABC):
         pass
 
     @abstractmethod
-    def get(self, key: SystemPromptKey) -> str | None:
+    def get(self, key: SystemPromptKey) -> str:
         pass
 
     @abstractmethod
