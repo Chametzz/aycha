@@ -33,14 +33,24 @@ class UpdateSystemPromptKeyController(Controller):
                 registry = prompt_select_system_prompt_key(SystemPromptKey)
         except ValueError:
             typer.secho(f"Error: '{key}' is not valid system prompt key.")
+        current_content = self.service.get(registry)
+        new_content = prompt_text_editor(current_content)
 
-        new_content = prompt_text_editor(self.service.get(registry))
-
-        if new_content:
-            self.service.save(registry, new_content)
+        if new_content is None:
             typer.secho(
-                f"{registry.display_name} system prompt updated sucessfully!",
-                fg=typer.colors.GREEN,
+                "Update cancelled: no content provided.", fg=typer.colors.YELLOW
             )
-        else:
-            typer.echo("Update cancelled")
+            return
+
+        if new_content == current_content:
+            typer.secho(
+                "No changes made: the prompt content is identical.",
+                fg=typer.colors.BLUE,
+            )
+            return
+
+        self.service.save(registry, new_content)
+        typer.secho(
+            f"{registry.display_name} system prompt updated successfully!",
+            fg=typer.colors.GREEN,
+        )
