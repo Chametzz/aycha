@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "chai"
+name = "aycha"
 version = "1.0.0"
-description = "Chai is an AI agent manager to do commits."
+description = "Aycha is an AI agent manager to do commits."
 readme = "README.md"
 requires-python = ">=3.14"
 authors = [{ name = "Chametzz", email = "chamrlsmtz@gmail.com" }]
@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
-chai = "main:app"
+aycha = "main:app"
 
 [tool.hatch.build.targets.wheel]
 packages = ["domain", "data", "presentation", "pkg"]

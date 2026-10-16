@@ -1,3 +1,3 @@
 from typing import Final
 
-APP_NAME: Final[str] = "chai"
+APP_NAME: Final[str] = "aycha"
