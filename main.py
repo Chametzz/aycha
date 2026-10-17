@@ -2,11 +2,13 @@ from data.repositories.ai_profile_repository_impl import AIProfileRepositoryImpl
 from data.services.ai_service_provider_impl import AIServiceProviderImpl
 from data.services.git_service_impl import GitServiceImpl
 from data.services.system_prompt_service_impl import SystemPromptServiceImpl
+from domain.constants import APP_VERSION
 from domain.use_cases.create_ai_profile import CreateAIProfileUseCase
 from domain.use_cases.delete_ai_profile import DeleteAIProfileUseCase
 from domain.use_cases.generate_commit_message import GenerateCommitMessageUseCase
 from domain.use_cases.set_active_ai_profile import SetActiveAIProfileUseCase
 from domain.use_cases.update_ai_profile import UpdateAIProfileUseCase
+from pkg.migration import Migration
 from presentation.controllers.create_ai_profile import CreateAIProfileController
 from presentation.controllers.delete_ai_profile import DeleteAIProfileController
 from presentation.controllers.git_commit import GitCommitController
@@ -22,6 +24,9 @@ from presentation.routers.git_commit import GitCommitRouter
 from presentation.routers.system_prompt import SystemPromptRouter
 
 if __name__ == "__main__":
+    # migrations
+    Migration.execute("app.json", APP_VERSION, [])
+
     # repositories
     ai_profile_repositroy = AIProfileRepositoryImpl()
 

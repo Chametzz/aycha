@@ -44,7 +44,7 @@ def prompt_create_ai_profile(
 
     api_key = None
     if provider.requires_api_key:
-        api_key: str = questionary.text(
+        api_key: str = questionary.password(
             "API Key:",
             validate=_validate_not_empty,
         ).ask()

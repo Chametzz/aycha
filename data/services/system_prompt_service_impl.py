@@ -1,20 +1,16 @@
 import json
-from pathlib import Path
 from typing import Any
 
-from typer import get_app_dir
-
-from domain.constants import APP_NAME
 from domain.enums.system_prompt_key import SystemPromptKey
 from domain.services.system_prompt_service import SystemPromptService
+from pkg.storage import get_app_dir
 
 DEFAULT_DATA: dict[str, Any] = {}
 
 
 class SystemPromptServiceImpl(SystemPromptService):
     def __init__(self):
-        app_dir = Path(get_app_dir(APP_NAME))
-        app_dir.mkdir(parents=True, exist_ok=True)
+        app_dir = get_app_dir()
         self.file_path = app_dir / "system_prompts.json"
 
     def _ensure_file_exists(self) -> None:
@@ -25,7 +21,7 @@ class SystemPromptServiceImpl(SystemPromptService):
         try:
             with open(self.file_path, "r", encoding="utf-8") as f:
                 return json.load(f)
-        except (json.JSONDecodeError, FileNotFoundError):
+        except json.JSONDecodeError, FileNotFoundError:
             return DEFAULT_DATA.copy()
 
     def _save_file(self, data: dict[str, Any]) -> None:

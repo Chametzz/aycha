@@ -30,3 +30,6 @@ que comandos ocuparemos
 
 seleccionar el registro de prompt del sistema
 editarlo y ya
+
+Ok ahora necesito manejar migraciones porque el cha del futuro piensa que esto puede tener actualizaciones aunque es poco probable, bien para eso necesitamos tener guardado lo que es el estado de la aplicación en que versión se quedó
+si las versiones coinciden

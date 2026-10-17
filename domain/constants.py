@@ -1,3 +1,2 @@
-from typing import Final
-
-APP_NAME: Final[str] = "aycha"
+APP_NAME = "aycha"
+APP_VERSION = "1.0.0"
